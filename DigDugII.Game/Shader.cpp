@@ -7,6 +7,9 @@ Shader::Shader(std::string name)
 
     program = glCreateProgram();
 
+    glBindAttribLocation(program, 0, "position");
+    glBindAttribLocation(program, 1, "color");
+
     glAttachShader(program, vertexShader);
     glAttachShader(program, fragmentShader);
 
@@ -33,6 +36,11 @@ Shader::Shader(std::string name)
 Shader::~Shader()
 {
     glDeleteProgram(program);
+}
+
+unsigned int Shader::getProgram()
+{
+    return program;
 }
 
 unsigned int Shader::CompileShader(int type, std::string name)

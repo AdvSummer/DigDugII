@@ -5,13 +5,14 @@
 #include <streambuf>
 #include <iostream>
 #include <GL/glew.h>
-#include <SDL_opengl.h>
 
 class Shader
 {
 public:
     Shader(std::string name);
     ~Shader();
+
+    unsigned int getProgram();
 
 private:
     unsigned int program;
