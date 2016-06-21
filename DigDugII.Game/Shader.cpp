@@ -9,6 +9,7 @@ Shader::Shader(std::string name)
 
     glBindAttribLocation(program, 0, "position");
     glBindAttribLocation(program, 1, "color");
+    glBindAttribLocation(program, 2, "texCoords");
 
     glAttachShader(program, vertexShader);
     glAttachShader(program, fragmentShader);
@@ -23,7 +24,7 @@ Shader::Shader(std::string name)
         glGetProgramiv(program, GL_INFO_LOG_LENGTH, &length);
         std::string log(length, ' ');
         glGetProgramInfoLog(program, length, &length, &log[0]);
-        std::cerr << log << std::endl;
+        std::cerr << "ERROR::SHADER::LINKING_FAILED\n" << log << std::endl;
     }
 
     glDeleteShader(vertexShader);
@@ -65,7 +66,7 @@ unsigned int Shader::CompileShader(int type, std::string name)
         glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &length);
         std::string log(length, ' ');
         glGetShaderInfoLog(shader, length, &length, &log[0]);
-        std::cerr << log << std::endl;
+        std::cerr << "ERROR::SHADER::COMPILATION_FAILED\n" << log << std::endl;
     }
 
     return shader;

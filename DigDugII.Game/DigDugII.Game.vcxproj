@@ -61,28 +61,32 @@
     <Import Project="SDL2.Win32.props" />
     <Import Project="GLEW.Win32.props" />
     <Import Project="GLM.props" />
-    <Import Project="ASSIMP.Win32.props" />
+    <Import Project="SOIL.Win32.props" />
+    <Import Project="ASSIMP.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="SDL2.Win32.props" />
     <Import Project="GLEW.Win32.props" />
     <Import Project="GLM.props" />
-    <Import Project="ASSIMP.Win32.props" />
+    <Import Project="SOIL.Win32.props" />
+    <Import Project="ASSIMP.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="SDL2.x64.props" />
     <Import Project="GLEW.x64.props" />
     <Import Project="GLM.props" />
-    <Import Project="ASSIMP.x64.props" />
+    <Import Project="SOIL.x64.props" />
+    <Import Project="ASSIMP.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="SDL2.x64.props" />
     <Import Project="GLEW.x64.props" />
     <Import Project="GLM.props" />
-    <Import Project="ASSIMP.x64.props" />
+    <Import Project="SOIL.x64.props" />
+    <Import Project="ASSIMP.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -164,11 +168,13 @@
   <ItemGroup>
     <ClInclude Include="Game.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="Shader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="Shader.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

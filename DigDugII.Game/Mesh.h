@@ -5,6 +5,7 @@
 #include <vector>
 #include <glm/glm.hpp>
 #include <GL/glew.h>
+#include <assimp/Importer.hpp>
 #include "Shader.h"
 
 struct Vertex
@@ -18,6 +19,7 @@ struct Texture
 {
     unsigned int id;
     std::string type;
+    aiString path;
 };
 
 class Mesh

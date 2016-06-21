@@ -49,11 +49,11 @@ void Mesh::Draw(Shader shader)
         std::stringstream ss;
         std::string number;
         std::string name = this->textures[i].type;
-        if (name == "texture_diffuse")
+        if(name == "texture_diffuse")
         {
             ss << diffuseCount++;
         }
-        else if (name == "texture_specular")
+        else if(name == "texture_specular")
         {
             ss << specularCount++;
         }

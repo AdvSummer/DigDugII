@@ -1,12 +1,17 @@
 #version 330 core
 
 in vec3 position;
-in vec4 color;
+in vec3 normal;
+in vec2 texCoords;
 
-out vec4 Color;
+out vec2 TexCoords;
+
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
 
 void main()
 {
-    gl_Position = vec4(position.x, position.y, position.z, 1.0);
-    Color = color;
+    gl_Position = projection * view * model * vec4(position, 1.0f);
+    TexCoords = texCoords;
 }
