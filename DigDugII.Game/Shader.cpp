@@ -7,9 +7,9 @@ Shader::Shader(std::string name)
 
     program = glCreateProgram();
 
-    glBindAttribLocation(program, 0, "position");
-    glBindAttribLocation(program, 1, "color");
-    glBindAttribLocation(program, 2, "texCoords");
+    glBindAttribLocation(program, PositionAttributeIndex, "position");
+    glBindAttribLocation(program, NormalAttributeIndex, "normal");
+    glBindAttribLocation(program, TexCoordsAttributeIndex, "texCoords");
 
     glAttachShader(program, vertexShader);
     glAttachShader(program, fragmentShader);
@@ -39,9 +39,33 @@ Shader::~Shader()
     glDeleteProgram(program);
 }
 
-unsigned int Shader::getProgram()
+unsigned int Shader::GetProgram()
 {
     return program;
+}
+
+void Shader::SetUniform(std::string name, float value)
+{
+    int location = glGetUniformLocation(program, name.c_str());
+    glUniform1f(location, value);
+}
+
+void Shader::SetUniform(std::string name, glm::vec2 value)
+{
+    int location = glGetUniformLocation(program, name.c_str());
+    glUniform2f(location, value.x, value.y);
+}
+
+void Shader::SetUniform(std::string name, glm::vec3 value)
+{
+    int location = glGetUniformLocation(program, name.c_str());
+    glUniform3f(location, value.x, value.y, value.z);
+}
+
+void Shader::SetUniform(std::string name, glm::mat4 value)
+{
+    int location = glGetUniformLocation(program, name.c_str());
+    glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
 }
 
 unsigned int Shader::CompileShader(int type, std::string name)
