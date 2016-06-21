@@ -9,6 +9,7 @@ public:
     Camera(glm::vec3 eye, glm::vec3 center);
     ~Camera();
 
+    glm::vec3 GetEye();
     glm::mat4 GetViewMatrix();
 
 private:

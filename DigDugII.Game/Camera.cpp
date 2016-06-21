@@ -11,6 +11,11 @@ Camera::~Camera()
 {
 }
 
+glm::vec3 Camera::GetEye()
+{
+    return eye;
+}
+
 glm::mat4 Camera::GetViewMatrix()
 {
     return glm::lookAt(eye, center, up);
