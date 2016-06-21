@@ -38,5 +38,6 @@ private:
     std::vector<Texture> textures;
 
     unsigned int VAO, VBO, EBO;
+    float shininess;
 };
 

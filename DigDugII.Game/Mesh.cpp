@@ -3,6 +3,7 @@
 Mesh::Mesh(std::vector<Vertex> vertices,
            std::vector<unsigned int> indices,
            std::vector<Texture> textures)
+    : shininess(16.0f)
 {
     this->vertices = vertices;
     this->indices = indices;
@@ -59,13 +60,22 @@ void Mesh::Draw(Shader shader)
         }
         number = ss.str();
 
-        glUniform1f(glGetUniformLocation(shader.getProgram(), ("material." + name + number).c_str()), i);
+        std::string material = "material." + name + number;
+        shader.SetUniform(material.c_str(), i);
+
         glBindTexture(GL_TEXTURE_2D, this->textures[i].id);
     }
-    glActiveTexture(GL_TEXTURE0);
+
+    shader.SetUniform("material.shininess", shininess);
 
     // Draw mesh
     glBindVertexArray(this->VAO);
     glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
+
+    for(unsigned int i = 0; i < this->textures.size(); ++i)
+    {
+        glActiveTexture(GL_TEXTURE0 + i);
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
 }
