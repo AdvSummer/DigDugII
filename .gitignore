@@ -1,6 +1,6 @@
 #ignore build folders
-Win32/
-x64/
+DigDugII.Game/Win32/
+DigDugII.Game/x64/
 
 #ignore user settings
 *.user

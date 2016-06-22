@@ -61,32 +61,32 @@
     <Import Project="SDL2.Win32.props" />
     <Import Project="GLEW.Win32.props" />
     <Import Project="GLM.props" />
-    <Import Project="SOIL.Win32.props" />
     <Import Project="ASSIMP.props" />
+    <Import Project="FREEIMAGE.Win32.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="SDL2.Win32.props" />
     <Import Project="GLEW.Win32.props" />
     <Import Project="GLM.props" />
-    <Import Project="SOIL.Win32.props" />
     <Import Project="ASSIMP.props" />
+    <Import Project="FREEIMAGE.Win32.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="SDL2.x64.props" />
     <Import Project="GLEW.x64.props" />
     <Import Project="GLM.props" />
-    <Import Project="SOIL.x64.props" />
     <Import Project="ASSIMP.props" />
+    <Import Project="FREEIMAGE.x64.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="SDL2.x64.props" />
     <Import Project="GLEW.x64.props" />
     <Import Project="GLM.props" />
-    <Import Project="SOIL.x64.props" />
     <Import Project="ASSIMP.props" />
+    <Import Project="FREEIMAGE.x64.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

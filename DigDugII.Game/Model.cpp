@@ -157,11 +157,16 @@ unsigned int Model::loadTexture(std::string path)
     int width, height;
 
     std::string texturePath = modelDir + path;
-    unsigned char* image = SOIL_load_image(texturePath.c_str(), &width, &height, 0, SOIL_LOAD_RGB);
+    FREE_IMAGE_FORMAT format = FreeImage_GetFileType(texturePath.c_str());
+    FIBITMAP *image = FreeImage_Load(format, texturePath.c_str());
+    image = FreeImage_ConvertTo32Bits(image);
+
+    width = FreeImage_GetWidth(image);
+    height = FreeImage_GetHeight(image);
 
     // Assign texture to ID
     glBindTexture(GL_TEXTURE_2D, textureID);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_BGRA, GL_UNSIGNED_BYTE, (void*)FreeImage_GetBits(image));
     glGenerateMipmap(GL_TEXTURE_2D);
 
     // Parameters
@@ -170,6 +175,7 @@ unsigned int Model::loadTexture(std::string path)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glBindTexture(GL_TEXTURE_2D, 0);
-    SOIL_free_image_data(image);
+
+    FreeImage_Unload(image);
     return textureID;
 }

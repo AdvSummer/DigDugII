@@ -6,7 +6,7 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
-#include <SOIL.h>
+#include <FreeImage.h>
 #include "Mesh.h"
 
 class Model

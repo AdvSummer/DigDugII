@@ -3,7 +3,7 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <IncludePath>..\Libraries\glm;..\Libraries\glew-1.13.0\include;D:\Libraries\SDL2-2.0.4\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>..\Libraries\glm;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup />
   <ItemGroup />
