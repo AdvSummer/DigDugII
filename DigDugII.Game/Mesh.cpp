@@ -23,14 +23,14 @@ Mesh::Mesh(std::vector<Vertex> vertices,
                  &this->indices[0], GL_STATIC_DRAW);
 
     // Vertex Positions
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+    glEnableVertexAttribArray(Shader::PositionAttributeIndex);
+    glVertexAttribPointer(Shader::PositionAttributeIndex, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
     // Vertex Normals
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
+    glEnableVertexAttribArray(Shader::NormalAttributeIndex);
+    glVertexAttribPointer(Shader::NormalAttributeIndex, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
     // Vertex Texture Coords
-    glEnableVertexAttribArray(2);
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texCoords));
+    glEnableVertexAttribArray(Shader::TexCoordsAttributeIndex);
+    glVertexAttribPointer(Shader::TexCoordsAttributeIndex, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texCoords));
 
     glBindVertexArray(0);
 }
