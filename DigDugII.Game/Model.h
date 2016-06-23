@@ -15,7 +15,7 @@ public:
     Model(std::string name);
     ~Model();
 
-    void Draw(Shader shader);
+    void Draw(Shader *shader);
 
 private:
     static const std::string modelDir;

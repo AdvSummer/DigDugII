@@ -39,7 +39,7 @@ Mesh::~Mesh()
 {
 }
 
-void Mesh::Draw(Shader shader)
+void Mesh::Draw(Shader *shader)
 {
     unsigned int diffuseCount = 1;
     unsigned int specularCount = 1;
@@ -61,12 +61,12 @@ void Mesh::Draw(Shader shader)
         number = ss.str();
 
         std::string material = "material." + name + number;
-        shader.SetUniform(material.c_str(), i);
+        shader->SetUniform(material.c_str(), i);
 
         glBindTexture(GL_TEXTURE_2D, this->textures[i].id);
     }
 
-    shader.SetUniform("material.shininess", shininess);
+    shader->SetUniform("material.shininess", shininess);
 
     // Draw mesh
     glBindVertexArray(this->VAO);

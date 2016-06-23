@@ -30,7 +30,7 @@ public:
          std::vector<Texture> textures);
     ~Mesh();
 
-    void Draw(Shader shader);
+    void Draw(Shader *shader);
 
 private:
     std::vector<Vertex> vertices;
