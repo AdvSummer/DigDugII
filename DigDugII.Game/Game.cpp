@@ -69,17 +69,6 @@ void Game::Run()
         shader->SetUniform("lights[0].linear", 0.009f);
         shader->SetUniform("lights[0].quadratic", 0.0032f);
 
-        //// Draw the loaded model
-        //glm::mat4 model;
-        //model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-        //shader->SetUniform("model", model);
-        //grassBlock->Draw(shader);
-
-        //glm::mat4 model1;
-        //model1 = glm::translate(model1, glm::vec3(2, 0.0f, 0));
-        //shader->SetUniform("model", model1);
-        //grassBlock->Draw(shader);
-
         for(GameObject *gameObject : gameObjects)
         {
             gameObject->Draw();
@@ -141,6 +130,7 @@ void Game::LoadLevel()
     image = FreeImage_ConvertTo24Bits(image);
     MapImageToLevel(image, Level::ABOVE);
     AdjustBlocksTexture();
+    FloodFill();
 }
 
 void Game::MapImageToLevel(FIBITMAP *image, Level level)
@@ -161,7 +151,7 @@ void Game::MapImageToLevel(FIBITMAP *image, Level level)
             switch(hexColor)
             {
             case 0x00ff00: // Green: normal terrain
-                gameObject = new GameObject(shader, models[GameObject::GRASS], glm::vec3(width * 2.0, level * 2.0, i * 2.0), GameObject::GRASS);
+                gameObject = new Terrain(shader, models[GameObject::GRASS], glm::vec3(width * 2.0, level * 2.0, i * 2.0), GameObject::GRASS, width, height);
                 break;
             case 0x542100: // Dark Brown: hole
                 if(ExistsFloorAt(width, height))
@@ -361,6 +351,80 @@ void Game::AdjustBlocksTexture()
             }
         }
     }
+}
+
+void Game::FloodFill()
+{
+    std::vector<Terrain*> grassBlocks;
+
+    for(int x = 0; x < LevelSize; ++x)
+    {
+        for(int y = 0; y < LevelSize; ++y)
+        {
+            Terrain *block = (Terrain*)GetGameObjectFromGrid(Level::GROUND, x, y);
+            if(block != nullptr && block->GetObject() == GameObject::GRASS)
+            {
+                grassBlocks.push_back(block);
+            }
+        }
+    }
+
+    if(grassBlocks.empty())
+    {
+        return;
+    }
+
+    std::vector<Terrain*> firstArea;
+    Flood(grassBlocks.front(), &grassBlocks, &firstArea);
+
+    if(!grassBlocks.empty())
+    {
+        std::vector<Terrain*> secondArea;
+        Flood(grassBlocks.front(), &grassBlocks, &secondArea);
+
+        std::vector<Terrain*> *deleteArea;
+        if(firstArea.size() <= secondArea.size())
+        {
+            deleteArea = &firstArea;
+        }
+        else
+        {
+            deleteArea = &secondArea;
+        }
+    }
+}
+
+void Game::Flood(Terrain* block, std::vector<Terrain*> *grassBlocks, std::vector<Terrain*> *area)
+{
+    if(block == nullptr)
+    {
+        return;
+    }
+
+    // if block is not in the list, means the block was already visited or the block is not grass
+    if(std::find(grassBlocks->begin(), grassBlocks->end(), block) == grassBlocks->end())
+    {
+        return;
+    }
+
+    int x = block->GetPositionX();
+    int y = block->GetPositionY();
+
+    // block belongs to area
+    area->push_back(block);
+
+    // remove block from list
+    grassBlocks->erase(std::remove(grassBlocks->begin(), grassBlocks->end(), block), grassBlocks->end());
+
+    if(grassBlocks->empty())
+    {
+        return;
+    }
+
+    Flood((Terrain*)GetGameObjectFromGrid(Level::GROUND, x, y + 1), grassBlocks, area);
+    Flood((Terrain*)GetGameObjectFromGrid(Level::GROUND, x, y - 1), grassBlocks, area);
+    Flood((Terrain*)GetGameObjectFromGrid(Level::GROUND, x + 1, y), grassBlocks, area);
+    Flood((Terrain*)GetGameObjectFromGrid(Level::GROUND, x - 1, y), grassBlocks, area);
 }
 
 int main(int argc, char *argv[])

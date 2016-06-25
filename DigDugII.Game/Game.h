@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <GL/glew.h>
 #include <SDL.h>
 #include <SDL_opengl.h>
@@ -9,6 +10,7 @@
 #include "Shader.h"
 #include "Model.h"
 #include "GameObject.h"
+#include "Terrain.h"
 #include "Camera.h"
 
 class Game
@@ -45,5 +47,6 @@ private:
     bool ExistsFloorAt(int x, int y);
     GameObject* GetGameObjectFromGrid(Level level, int x, int y);
     void AdjustBlocksTexture();
-
+    void FloodFill();
+    void Flood(Terrain* block, std::vector<Terrain*>* grassBlocks, std::vector<Terrain*> *area);
 };
