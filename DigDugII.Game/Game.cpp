@@ -29,7 +29,7 @@ Game::Game()
     LoadModels();
     LoadLevel();
 
-    camera = new Camera(glm::vec3(20.0, 40.0, 35.0), glm::vec3(20.0, 0.0, 20.0));
+    camera = new Camera(glm::vec3(20.0, 30.0, 30.0), glm::vec3(20.0, 0.0, 20.0));
 }
 
 Game::~Game()
@@ -42,11 +42,23 @@ Game::~Game()
 void Game::Run()
 {
     SDL_Event windowEvent;
-    while (true)
+    bool running = true;
+    while(running)
     {
-        if (SDL_PollEvent(&windowEvent))
+        while(SDL_PollEvent(&windowEvent))
         {
-            if (windowEvent.type == SDL_QUIT) break;
+            switch(windowEvent.type)
+            {
+            case SDL_QUIT:
+                running = false;
+                break;
+
+            case SDL_KEYDOWN:
+            case SDL_KEYUP:
+                SDL_Keycode keyCode = windowEvent.key.keysym.sym;
+                HandleKeyboardInput(keyCode, (SDL_EventType)windowEvent.type);
+                break;
+            }
         }
 
         glClearColor(0.0f, 0.5f, 0.75f, 1.0f);
@@ -54,7 +66,6 @@ void Game::Run()
 
         // Transformation matrices
         glm::mat4 projection = glm::perspective(45.0f, (float)display.w / display.h, 0.1f, 100.0f);
-        //glm::mat4 projection = glm::ortho(-20.0f, 20.0f, -20.0f, 20.0f, 0.0f, 50.0f);
         glm::mat4 view = camera->GetViewMatrix();
         shader->SetUniform("projection", projection);
         shader->SetUniform("view", view);
@@ -71,6 +82,7 @@ void Game::Run()
 
         for(GameObject *gameObject : gameObjects)
         {
+            gameObject->Update();
             gameObject->Draw();
         }
 
@@ -93,6 +105,7 @@ void Game::LoadModels()
     models.push_back(new Model("crack_two_l_block.obj"));
     models.push_back(new Model("crack_three_block.obj"));
     models.push_back(new Model("crack_four_block.obj"));
+    models.push_back(new Model("player.obj"));
 }
 
 void Game::LoadLevel()
@@ -174,7 +187,8 @@ void Game::MapImageToLevel(FIBITMAP *image, Level level)
             case 0xffff00: // Yellow: player
                 if(ExistsFloorAt(width, height))
                 {
-
+                    gameObject = new GameObject(shader, models[GameObject::PLAYER], glm::vec3(width * 2.0, level * 2.0, i * 2.0), GameObject::PLAYER);
+                    player = gameObject;
                 }
                 break;
             }
@@ -346,7 +360,7 @@ void Game::AdjustBlocksTexture()
                 if(object != GameObject::OBJECT_NULL)
                 {
                     block->SetModel(models[object], block->GetObject());
-                    block->Rotate(glm::radians(degrees));
+                    block->Rotate(degrees);
                 }
             }
         }
@@ -425,6 +439,61 @@ void Game::Flood(Terrain* block, std::vector<Terrain*> *grassBlocks, std::vector
     Flood((Terrain*)GetGameObjectFromGrid(Level::GROUND, x, y - 1), grassBlocks, area);
     Flood((Terrain*)GetGameObjectFromGrid(Level::GROUND, x + 1, y), grassBlocks, area);
     Flood((Terrain*)GetGameObjectFromGrid(Level::GROUND, x - 1, y), grassBlocks, area);
+}
+
+void Game::HandleKeyboardInput(SDL_Keycode keyCode, SDL_EventType eventType)
+{
+    switch(keyCode)
+    {
+    case SDLK_w:
+        player->Rotate(180.0);
+        if(eventType == SDL_KEYDOWN)
+        {
+            player->SetState(GameObject::MOVING);
+            player->SetVelocity(glm::vec3(0.0, 0.0, -0.1));
+        }
+        else
+        {
+            player->SetState(GameObject::INERT);
+        }
+        break;
+    case SDLK_a:
+        player->Rotate(270.0);
+        if(eventType == SDL_KEYDOWN)
+        {
+            player->SetState(GameObject::MOVING);
+            player->SetVelocity(glm::vec3(-0.1, 0.0, 0.0));
+        }
+        else
+        {
+            player->SetState(GameObject::INERT);
+        }
+        break;
+    case SDLK_s:
+        player->Rotate(0.0);
+        if(eventType == SDL_KEYDOWN)
+        {
+            player->SetState(GameObject::MOVING);
+            player->SetVelocity(glm::vec3(0.0, 0.0, 0.1));
+        }
+        else
+        {
+            player->SetState(GameObject::INERT);
+        }
+        break;
+    case SDLK_d:
+        player->Rotate(90.0);
+        if(eventType == SDL_KEYDOWN)
+        {
+            player->SetState(GameObject::MOVING);
+            player->SetVelocity(glm::vec3(0.1, 0.0, 0.0));
+        }
+        else
+        {
+            player->SetState(GameObject::INERT);
+        }
+        break;
+    }
 }
 
 int main(int argc, char *argv[])

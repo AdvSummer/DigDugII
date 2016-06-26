@@ -40,6 +40,7 @@ private:
     std::vector<Model*> models;
     std::vector<GameObject*> gameObjects;
     GameObject *levelGrid[2][LevelSize][LevelSize];
+    GameObject *player;
 
     void LoadModels();
     void LoadLevel();
@@ -49,4 +50,5 @@ private:
     void AdjustBlocksTexture();
     void FloodFill();
     void Flood(Terrain* block, std::vector<Terrain*>* grassBlocks, std::vector<Terrain*> *area);
+    void HandleKeyboardInput(SDL_Keycode keyCode, SDL_EventType eventType);
 };
