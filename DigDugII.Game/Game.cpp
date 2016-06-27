@@ -16,8 +16,7 @@ Game::Game()
 
     SDL_GetDesktopDisplayMode(0, &display);
 
-    //window = SDL_CreateWindow("OpenGL", 100, 100, display.w, display.h, SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN_DESKTOP);
-    window = SDL_CreateWindow("OpenGL", 100, 100, display.w, display.h, SDL_WINDOW_OPENGL);
+    window = SDL_CreateWindow("OpenGL", 100, 100, display.w, display.h, SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN_DESKTOP);
     context = SDL_GL_CreateContext(window);
 
     glewExperimental = GL_TRUE;
@@ -597,6 +596,9 @@ void Game::HandleKeyboardInput(SDL_Keycode keyCode, SDL_EventType eventType)
 {
     switch(keyCode)
     {
+	case SDLK_ESCAPE:
+		SDL_Quit();
+		break;
     case SDLK_w:
         player->Rotate(180.0);
         player->SetOrientation(GameObject::UP);
